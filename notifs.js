@@ -646,6 +646,16 @@ var Jeapie = {
 };
 if (tempJeapie) {
     var isInit = !1, e;
-    for (item in tempJeapie)in_array("init", tempJeapie[item]) && (isInit = !0, 0 != item && (e = tempJeapie[0], tempJeapie[0] = tempJeapie[item], tempJeapie[item] = e));
+    var item;
+    for (item in tempJeapie) {
+        if (in_array("init", tempJeapie[item])) {
+            isInit = !0;
+            if (0 != item) {
+                e = tempJeapie[0];
+                tempJeapie[0] = tempJeapie[item];
+                tempJeapie[item] = e;
+            }
+        }
+    }
     isInit || Jeapie.push(["init"]), Jeapie.processPushes(tempJeapie)
 }
