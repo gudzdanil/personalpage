@@ -15,7 +15,6 @@ var Gravitec = window.Gravitec || {
         initParams: null,
         jeapiePushDb: null,
         messageListener: null,
-        // autoRegister: {{auto_register}},
         subdomainName: "ubr",
         jeapieMode: null,
         isHttp: true,
