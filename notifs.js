@@ -18,7 +18,7 @@ var Gravitec = window.Gravitec || {
         // autoRegister: {{auto_register}},
         subdomainName: "ubr",
         jeapieMode: null,
-        // isHttp: {{isHttp}},
+        isHttp: true,
         webSiteDomain: "http://gudz.me",
         autoRegister: true,
         deviceToken: null,
