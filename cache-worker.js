@@ -8,7 +8,7 @@ var REQUIRED_FILES = [
     'img/c-asteroids-4.png',
     'img/c-asteroids-5.png',
     'img/c-asteroids-6.png',
-    'style.js',
+    'style.css',
     'index.html'
 ];
 

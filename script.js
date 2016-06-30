@@ -27,7 +27,7 @@ document.querySelector('#randomButton').addEventListener('click', function() {
         newIndex = getRandomNumber();
     }
 
-    image.src = 'c-asteroids-' + newIndex + '.png';
+    image.src = 'img/c-asteroids-' + newIndex + '.png';
 
     function getRandomNumber() {
         return Math.floor(Math.random() * 6) + 1;
