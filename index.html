@@ -4,9 +4,11 @@
     <meta charset="UTF-8">
     <title>HI</title>
     <link rel="stylesheet" href="style.css">
+    <script   src="https://code.jquery.com/jquery-2.2.4.min.js"   integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="   crossorigin="anonymous"></script>
     <script src="https://gravitec.net:7783/sites/gudz/client.js" async></script>
 </head>
 <body>
+<button class="hidden">Set my own alias</button>
 <!--<h2>my test site</h2>-->
 <!--<div id="offlineNotification" class="hidden">-->
     <!--you can work offline-->
@@ -26,11 +28,11 @@
     Gravitec.push(['isSubscribed', function(data) {
         console.log('is subscribed ', data);
     }]);
-//    Gravitec.push(['init', {autoRegister: false}]);
-//    Gravitec.push(['registerUserForPush']);
-//    getSubscription
-//    afterSubscription
-//    isSubscribed
+    $(document).ready(function() {
+        $('button').click(function() {
+            Gravitec.push(['setAlias', 'owner']);
+        });
+    });
 </script>
 </body>
 </html>
