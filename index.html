@@ -19,15 +19,6 @@
 <!--<script src="script.js"></script>-->
 <script>
     var Gravitec = Gravitec || [];
-    Gravitec.push(['getSubscription', function(data) {
-        console.log('got subscription', data);
-    }]);
-    Gravitec.push(['afterSubscription', function(data) {
-        console.log('after subscription triggered', data);
-    }]);
-    Gravitec.push(['isSubscribed', function(data) {
-        console.log('is subscribed ', data);
-    }]);
     $(document).ready(function() {
         $('button').click(function() {
             Gravitec.push(['setAlias', 'owner']);
