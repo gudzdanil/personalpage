@@ -16,7 +16,16 @@
 <!--<img src="img/c-asteroids-1.png" id="logoImage" alt="">-->
 <!--<script src="script.js"></script>-->
 <script>
-//    var Gravitec = Gravitec || [];
+    var Gravitec = Gravitec || [];
+    Gravitec.push(['getSubscription', function(data) {
+        console.log('got subscription', data);
+    }]);
+    Gravitec.push(['afterSubscription', function(data) {
+        console.log('after subscription triggered', data);
+    }]);
+    Gravitec.push(['isSubscribed', function(data) {
+        console.log('is subscribed ', data);
+    }]);
 //    Gravitec.push(['init', {autoRegister: false}]);
 //    Gravitec.push(['registerUserForPush']);
 //    getSubscription
