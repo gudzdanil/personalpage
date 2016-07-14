@@ -9,7 +9,7 @@
     <script src="https://cdn.gravitec.net/sites/gudz/client.js" async></script>
 </head>
 <body>
-<div id="timerContainer"><span id="timer">10</span> sec to subscribe</div>
+<div id="timerContainer"><span id="timer"></span> sec to subscribe</div>
 <div id="tagscontainer" style="display: none">
     <p>
         <input type="text">
@@ -21,14 +21,16 @@
 </div>
 <div id="apiStack" style="position: fixed; top: 0;right: 0; border: 1px solid black; padding: 10px;width: 400px;"></div>
 <script>
-    var secs = 10;
+    var secs = 6;
     var timeContainer = $('#timer');
     var tagsContainer = $("#tagscontainer");
     var apiStack = $('#apiStack');
     var Gravitec = Gravitec || [];
     Gravitec.push(["init", {"autoRegister": false}]);
     apiStack.append('<p>var Gravitec = Gravitec || [];<br/>Gravitec.push(["init", {"autoRegister": false}]);</p>')
-    var interval = setInterval(function () {
+    var interval = setInterval(tick, 1000);
+    tick();
+    function tick() {
         if (secs > 0) {
             secs--;
             timeContainer.html(secs);
@@ -37,7 +39,7 @@
             clearInterval(interval);
             onTimeout();
         }
-    }, 1000);
+    }
 
     function onTimeout() {
         Gravitec.push(["registerUserForPush", onSubscribed]);
