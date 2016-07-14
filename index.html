@@ -31,7 +31,7 @@
     var interval = setInterval(function () {
         if (secs > 0) {
             secs--;
-            timeContainer.innerHTML = secs;
+            timeContainer.html(secs);
         }
         else {
             clearInterval(interval);
