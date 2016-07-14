@@ -4,26 +4,32 @@
     <meta charset="UTF-8">
     <title>HI</title>
     <link rel="stylesheet" href="style.css">
-    <script   src="https://code.jquery.com/jquery-2.2.4.min.js"   integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="   crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-2.2.4.min.js"
+            integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
     <script src="https://cdn.gravitec.net/sites/gudz/client.js" async></script>
 </head>
 <body>
 <div id="timerContainer"><span id="timer">10</span> sec to subscribe</div>
 <div id="tagscontainer" style="display: none">
-    <input type="text">
-    <button class="add">Add tag</button>
+    <p>
+        <input type="text">
+        <button class="add">Add tag</button>
+    </p>
     <p style="margin-top: 20px;">
         <button class="removeAll">Remove all tags</button>
     </p>
 </div>
+<div id="apiStack" style="position: fixed; top: 0;right: 0; border: 1px solid black; padding: 10px;width: 200px;"></div>
 <script>
-    var Gravitec = Gravitec || [];
-    Gravitec.push(["init", {"autoRegister":false}]);
     var secs = 10;
-    var timeContainer = document.getElementById('timer');
+    var timeContainer = $('#timer');
     var tagsContainer = $("#tagscontainer");
-    var interval = setInterval(function() {
-        if(secs > 0) {
+    var apiStack = $('#apiStack');
+    var Gravitec = Gravitec || [];
+    Gravitec.push(["init", {"autoRegister": false}]);
+    apiStack.append('<p>var Gravitec = Gravitec || [];<br/>Gravitec.push(["init", {"autoRegister": false}]);</p>')
+    var interval = setInterval(function () {
+        if (secs > 0) {
             secs--;
             timeContainer.innerHTML = secs;
         }
@@ -34,17 +40,15 @@
     }, 1000);
 
     function onTimeout() {
-        Gravitec.push([
-            "registerUserForPush",
-            onSubscribed
-        ]);
-
+        Gravitec.push(["registerUserForPush", onSubscribed]);
+        apiStack.append('<p>Gravitec.push(["registerUserForPush", onSubscribed]);</p>');
     }
 
     function onTagAdd() {
         var val = tagsContainer.find('input').val();
-        if(val) {
+        if (val) {
             Gravitec.push(['addTag', val]);
+            apiStack.append('<p>Gravitec.push(["addTag", "' + val + '"]);</p>');
         }
         else {
             alert('Tag entered is empty');
@@ -53,9 +57,11 @@
 
     function onTagsRemove() {
         Gravitec.push(["removeAllTags"]);
+        apiStack.append('<p>Gravitec.push(["removeAllTags"]);</p>');
     }
 
     function onSubscribed() {
+        apiStack.append('<p>onSubscribed function triggered</p>');
         $('#timerContainer').hide();
         tagsContainer.show();
         tagsContainer.find('button.add').on('click', onTagAdd);
