@@ -34,14 +34,10 @@
     }, 1000);
 
     function onTimeout() {
-        $('#timerContainer').hide();
         Gravitec.push([
             "registerUserForPush",
             onSubscribed
         ]);
-        tagsContainer.show();
-        tagsContainer.find('button.add').on('click', onTagAdd);
-        tagsContainer.find('button.removeAll').on('click', onTagsRemove);
 
     }
 
@@ -60,7 +56,11 @@
     }
 
     function onSubscribed() {
-        alert('Thank you for subscription ;)')
+        $('#timerContainer').hide();
+        tagsContainer.show();
+        tagsContainer.find('button.add').on('click', onTagAdd);
+        tagsContainer.find('button.removeAll').on('click', onTagsRemove);
+        alert('Thank you for subscription ;) You can add a tag!')
     }
 </script>
 </body>
