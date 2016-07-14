@@ -8,11 +8,11 @@
     <script src="https://cdn.gravitec.net/sites/gudz/client.js" async></script>
 </head>
 <body>
-<div><span id="timer">10</span> sec to subscribe</div>
-<div id="tagscontainer">
+<div id="timerContainer"><span id="timer">10</span> sec to subscribe</div>
+<div id="tagscontainer" style="display: none">
     <input type="text">
     <button class="add">Add tag</button>
-    <p>
+    <p style="margin-top: 20px;">
         <button class="removeAll">Remove all tags</button>
     </p>
 </div>
@@ -34,10 +34,12 @@
     });
 
     function onTimeout() {
+        $('#timerContainer').hide();
         Gravitec.push([
             "registerUserForPush",
             onSubscribed
         ]);
+        tagsContainer.show();
         tagsContainer.find('button.add').on('click', onTagAdd);
         tagsContainer.find('button.removeAll').on('click', onTagsRemove);
 
