@@ -7,6 +7,7 @@
 </head>
 <body>
 <script>
+    var useAgent = navigator.userAgent.toLowerCase();
     document.write(!!((useAgent.match('mobile') && !useAgent.match('safari'))));
     document.write(navigator.userAgent.match('CriOS'));
 </script>
