@@ -1,15 +1,128 @@
 <!DOCTYPE html>
-<html lang="en" ng-app="devchallenge">
+<html lang="en" ng-app="test">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.8/angular.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.8/angular-cookies.js"></script>
 </head>
 <body>
+<div ng-controller="Login as vmLogin">
+    <button ng-click="vmLogin.login">Login</button>
+</div>
 <script>
-    var useAgent = navigator.userAgent.toLowerCase();
-    document.write(!!((useAgent.match('mobile') && !useAgent.match('safari'))));
-    document.write(navigator.userAgent.match('CriOS'));
+    var appId = 399825390407547;
+    var perms = 'email, public_profile, user_birthday, user_photos, user_location';
+    angular.module('test', ['ngCookies'])
+            .controller('Login', function($cookies, $q, $window) {
+                init();
+
+                this.login = function() {
+
+                    checkIfFacebookAlreadyLogin()
+                            .then(function (res) {
+                                fbLogin();
+                            });
+
+                };
+
+                function fbLogin() {
+//                    if (navigator.userAgent.match('CriOS') || isIOSMobile()) {
+                        $scope.openPopup('https://m.facebook.com/v2.3/dialog/oauth?client_id=' + appId + '&response_type=token&redirect_uri=' + $location.absUrl() + '&scope=' + perms);
+//                    }
+                }
+
+                function isIOSMobile() {
+                    var useAgent = navigator.userAgent.toLowerCase();
+
+                    return !!((useAgent.match('mobile') && !useAgent.match('safari')));
+                }
+
+                function checkIfFacebookAlreadyLogin() {
+                    var defer = $q.defer();
+
+                    // clear cookies
+                    angular.forEach($cookies.getAll(), function (v, k) {
+                        if (k != ('tutorialActivities' || 'tutorialPeoples')) {
+                            $cookies.remove(k, {domain: $location.host()});
+                        }
+                    });
+
+                    FB.getLoginStatus(function (response) {
+                        if (response.authResponse) {
+                            document.body.innerHTML += 'creds: ' + response.authResponse.accessToken;
+//                            $scope.facebookSetCredentials(response.authResponse.accessToken);
+                        } else {
+                            defer.resolve('no-login');
+                        }
+                    });
+
+                    return defer.promise;
+                }
+
+                function openPopup(requestUrl) {
+                    var deferred = $q.defer();
+                    var height = $window.screen.height / 1.8;
+                    var width = $window.screen.width / 2;
+
+                    var left = ($window.screen.width / 2) - (width / 2);
+                    var top = ($window.screen.height / 2) - (height / 2);
+
+                    var w = $window.open(requestUrl,
+                            '_blank',
+                            'width=' + width + ',' +
+                            'height=' + height + ',' +
+                            'left=' + left + ',' +
+                            'top=' + top + ',' +
+                            'resizable=yes,scrollbars=yes,status=no', false);
+                    $window.handleOAuth = function (oAuthParams) {
+                        $window.handleOAuth = null;
+                        w.close();
+                        deferred.resolve(oAuthParams);
+
+                        if (oAuthParams && oAuthParams.access_token) {
+                            var token = oAuthParams.access_token;
+//                            locker.put('tokenHasReceived', true);
+                            FB.api('/me', 'get', {access_token: token.toString()}, function (data) {
+                                document.body.innerHTML += "<p>DATA:<br/>"+JSON.stringify(data) + "<br/>"+ token +"</p>";
+//                                $scope.storeFacebookLoginResult(data, token);
+                            });
+                        }
+                    };
+                    return deferred.promise;
+                }
+
+                function init() {
+                    window.fbAsyncInit = function()
+                    {
+                        FB.init({
+                            appId: appId,
+                            status: true,
+                            cookie: true,
+                            version: 'v2.3'
+                        });
+
+//                        $timeout(function() {
+//                            $rootScope.$emit('modal:checkFacebookLoginStatus');
+//                        }, 500);
+                    };
+
+                    (function(d, s, id)
+                    {
+                        var js,
+                                fjs = d.getElementsByTagName(s)[0];
+
+                        if(d.getElementById(id)){ return; }
+
+                        js = d.createElement(s);
+                        js.id = id;
+                        js.src = 'https://connect.facebook.net/en/sdk.js';
+
+                        fjs.parentNode.insertBefore(js, fjs);
+                    }(document, 'script', 'facebook-jssdk'));
+                }
+            });
+
 </script>
 </body>
 </html>
