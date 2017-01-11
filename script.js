@@ -15,7 +15,14 @@
             templateUrl: '/templates/message.html'
         })
         .component('sendForm', {
-            templateUrl: '/templates/form.html'
+            templateUrl: '/templates/form.html',
+            controller: ['PubNubService', function(PubNubService) {
+                this.text = '';
+                this.submit = angular.bind(this, function() {
+                    PubNubService.publish({text: this.text});
+                    this.text = '';
+                });
+            }]
         })
         .component('map', {
             bindings: {
