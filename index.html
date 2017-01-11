@@ -1,28 +1,14 @@
 <!DOCTYPE html>
-<html lang="en" ng-app="test">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
-    <meta name="keywords" keywords="{{$root.text}}"/>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.8/angular.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.8/angular-cookies.js"></script>
+    <title>EyeSPY 360 test task</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 </head>
-<body>
-<div ng-controller="Login as vmLogin">
-    <button ng-click="vmLogin.login">Login</button>
-</div>
-<script>
-    angular.module('test', [])
-            .run(function($rootScope) {
-                $rootScope.text = "mytext";
-            })
-            .controller('Login', function() {
-                this.login = function() {
-
-
-                };
-            });
-
-</script>
+<body ng-app="es360">
+<app></app>
+<script src="https://cdn.pubnub.com/sdk/javascript/pubnub.4.3.3.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.1/angular.js"></script>
+<script src="/script.js"></script>
 </body>
 </html>
