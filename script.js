@@ -41,7 +41,7 @@
         PubNubService.getOnlineUsers().then(angular.bind(this, function (response) {
 
         }));
-        $scope.$on('message', angular.bind(this, function(m){
+        $scope.$on('message', angular.bind(this, function(e, m){
             this.messages.unshift(m);
         }));
 
