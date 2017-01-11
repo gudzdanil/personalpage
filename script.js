@@ -112,7 +112,8 @@
     function initPubNub() {
         this._pubnub = new PubNub({
             subscribeKey: "sub-c-e622b4f8-d7d4-11e6-baae-0619f8945a4f",
-            publishKey: "pub-c-f9081d4e-f107-4d19-85f7-b453dbc9b13e"
+            publishKey: "pub-c-f9081d4e-f107-4d19-85f7-b453dbc9b13e",
+            secretKey: "sec-c-NWM0NGU4ZjYtNTdmZS00OTkyLTkxNjAtYmRlMzNhMWMyMWE0"
         });
 
         this._pubnub.addListener(this._getListener());
