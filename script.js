@@ -34,7 +34,9 @@
 
     function AppController(PubNubService) {
         PubNubService.getHistory().then(angular.bind(this, function(response) {
-
+            this.messages = response.messages.map(function(el) {
+                return el.entry;
+            })
         }));
         PubNubService.getOnlineUsers().then(angular.bind(this, function(response) {
 
