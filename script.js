@@ -47,6 +47,7 @@
     function PubNubService($rootScope, $q) {
         this._rootScope = $rootScope;
         this._q = $q;
+        this._channel = 'chat';
     }
     PubNubService.$inject = ['$rootScope', '$q'];
 
@@ -61,7 +62,7 @@
         return this._q(angular.bind(this, function(res, rej) {
             this._pubnub.history(
                 {
-                    channel: 'chat',
+                    channel: this._channel,
                     reverse: true, // Setting to true will traverse the time line in reverse starting with the oldest message first.
                 },
                 function (status, response) {
@@ -79,7 +80,7 @@
         return this._q(angular.bind(this, function(res, rej) {
             this._pubnub.hereNow(
                 {
-                    channels: ["chat"],
+                    channel: this._channel,
                     includeUUIDs: true,
                     includeState: true
                 },
@@ -95,8 +96,7 @@
         this._pubnub.publish(
             {
                 message: message,
-                channel: 'chat',
-                sendByPost: false, // true to send via post
+                channel: this._channel,
                 storeInHistory: true //override default storage options
             },
             function (status, response) {
