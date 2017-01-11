@@ -54,7 +54,6 @@
     PubNubService.$inject = ['$rootScope', '$q'];
 
     PubNubService.prototype.init = initPubNub;
-    PubNubService.prototype._subscribe = subscribe;
     PubNubService.prototype._getListener = getListener;
     PubNubService.prototype.publish = publish;
     PubNubService.prototype.getOnlineUsers = getOnlineUsers;
@@ -112,10 +111,6 @@
             publishKey: "pub-c-f9081d4e-f107-4d19-85f7-b453dbc9b13e"
         });
 
-        this._subscribe();
-    }
-
-    function subscribe() {
         this._pubnub.addListener(this._getListener);
         this._pubnub.subscribe({
             channels: [this._channel],
