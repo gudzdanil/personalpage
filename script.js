@@ -33,8 +33,8 @@
         });
 
     function AppController(PubNubService) {
-        PubNubService.getHistory().then(angular.bind(this, function(response) {
-            this.messages = response.messages.map(function(el) {
+        PubNubService.getHistory().then(angular.bind(this, function(messages) {
+            this.messages = messages.map(function(el) {
                 return el.entry;
             })
         }));
