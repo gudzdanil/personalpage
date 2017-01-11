@@ -111,7 +111,7 @@
             publishKey: "pub-c-f9081d4e-f107-4d19-85f7-b453dbc9b13e"
         });
 
-        this._pubnub.addListener(this._getListener);
+        this._pubnub.addListener(this._getListener());
         this._pubnub.subscribe({
             channels: [this._channel],
             withPresence: true
