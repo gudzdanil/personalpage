@@ -64,8 +64,7 @@
         return this._q(angular.bind(this, function (res, rej) {
             this._pubnub.history(
                 {
-                    channel: this._channel,
-                    reverse: true, // Setting to true will traverse the time line in reverse starting with the oldest message first.
+                    channel: this._channel
                 },
                 function (status, response) {
                     console.log('history', status, response);
@@ -118,9 +117,6 @@
     }
 
     function subscribe() {
-        if (!this._pubnub) {
-            return;
-        }
         this._pubnub.addListener(this._getListener);
         this._pubnub.subscribe({
             channels: [this._channel],
