@@ -49,7 +49,7 @@
     PubNubService.prototype.getHistory = getHistory;
 
     function getHistory() {
-        return this._q(function(res) {
+        return this._q(angular.bind(this, function(res) {
             this._pubnub.history(
                 {
                     channel: 'chat',
@@ -60,11 +60,11 @@
                     res(response);
                 }
             );
-        });
+        }));
     }
 
     function getOnlineUsers() {
-        return this._q(function(res, rej) {
+        return this._q(angular.bind(this, function(res, rej) {
             this._pubnub.hereNow(
                 {
                     channels: ["ch1"],
@@ -77,7 +77,7 @@
                     res(response);
                 }
             );
-        });
+        }));
     }
 
     function publish(message) {
