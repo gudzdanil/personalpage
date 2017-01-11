@@ -49,7 +49,7 @@
     PubNubService.prototype.getHistory = getHistory;
 
     function getHistory() {
-        return this._q(angular.bind(this, function(res) {
+        return this._q(angular.bind(this, function(res, rej) {
             this._pubnub.history(
                 {
                     channel: 'chat',
@@ -57,7 +57,10 @@
                 },
                 function (status, response) {
                     console.log('history', status, response);
-                    res(response);
+                    if(status.statusCode !== 200) {
+                        rej(status);
+                    }
+                    res(response.messages);
                 }
             );
         }));
@@ -67,8 +70,7 @@
         return this._q(angular.bind(this, function(res, rej) {
             this._pubnub.hereNow(
                 {
-                    channels: ["ch1"],
-                    channelGroups: ["cg1"],
+                    channels: ["chat"],
                     includeUUIDs: true,
                     includeState: true
                 },
