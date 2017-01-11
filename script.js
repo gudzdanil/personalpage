@@ -36,7 +36,7 @@
         PubNubService.getHistory().then(angular.bind(this, function (messages) {
             this.messages = messages.map(function (el) {
                 return el.entry;
-            })
+            }).reverse();
         }));
         PubNubService.getOnlineUsers().then(angular.bind(this, function (response) {
 
