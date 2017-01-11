@@ -84,7 +84,7 @@
         return this._q(angular.bind(this, function (res, rej) {
             this._pubnub.hereNow(
                 {
-                    channel: this._channel,
+                    channels: [this._channel],
                     includeUUIDs: true,
                     includeState: true
                 },
