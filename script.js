@@ -29,7 +29,40 @@
                 userCoords: '<',
                 lastUserCoord: '<'
             },
-            templateUrl: '/templates/map.html'
+            templateUrl: '/templates/map.html',
+            controller: ['$element', function($element) {
+                this._map = new google.maps.Map(document.getElementById($element), {
+                    center: {lat: -34.397, lng: 150.644},
+                    zoom: 6
+                });
+                var infoWindow = new google.maps.InfoWindow({map: map});
+
+                // Try HTML5 geolocation.
+                if (navigator.geolocation) {
+                    navigator.geolocation.getCurrentPosition(function(position) {
+                        var pos = {
+                            lat: position.coords.latitude,
+                            lng: position.coords.longitude
+                        };
+
+                        infoWindow.setPosition(pos);
+                        infoWindow.setContent('Location found.');
+                        map.setCenter(pos);
+                    }, function() {
+                        handleLocationError(true, infoWindow, map.getCenter());
+                    });
+                } else {
+                    // Browser doesn't support Geolocation
+                    handleLocationError(false, infoWindow, map.getCenter());
+                }
+
+                function handleLocationError(browserHasGeolocation, infoWindow, pos) {
+                    infoWindow.setPosition(pos);
+                    infoWindow.setContent(browserHasGeolocation ?
+                        'Error: The Geolocation service failed.' :
+                        'Error: Your browser doesn\'t support geolocation.');
+                }
+            }]
         });
 
     function AppController(PubNubService, $scope) {
@@ -111,8 +144,7 @@
     function initPubNub() {
         this._pubnub = new PubNub({
             subscribeKey: "sub-c-e622b4f8-d7d4-11e6-baae-0619f8945a4f",
-            publishKey: "pub-c-f9081d4e-f107-4d19-85f7-b453dbc9b13e",
-            secretKey: "sec-c-NWM0NGU4ZjYtNTdmZS00OTkyLTkxNjAtYmRlMzNhMWMyMWE0"
+            publishKey: "pub-c-f9081d4e-f107-4d19-85f7-b453dbc9b13e"
         });
 
         this._pubnub.addListener(this._getListener());
