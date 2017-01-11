@@ -37,9 +37,9 @@
             this.messages = messages.map(function (el) {
                 return el.entry;
             }).reverse();
-        }));
-        PubNubService.getOnlineUsers().then(angular.bind(this, function (response) {
+            PubNubService.getOnlineUsers().then(angular.bind(this, function (response) {
 
+            }));
         }));
         $scope.$on('message', angular.bind(this, function(e, m){
             $scope.$apply(angular.bind(this, function() {this.messages.unshift(m);}));
