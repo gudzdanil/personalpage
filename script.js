@@ -52,7 +52,7 @@
     PubNubService.$inject = ['$rootScope', '$q'];
 
     PubNubService.prototype.init = initPubNub;
-    PubNubService.prototype._initListener = initListener;
+    PubNubService.prototype._subscribe = subscribe;
     PubNubService.prototype._getListener = getListener;
     PubNubService.prototype.publish = publish;
     PubNubService.prototype.getOnlineUsers = getOnlineUsers;
@@ -97,7 +97,6 @@
             {
                 message: message,
                 channel: this._channel,
-                storeInHistory: true //override default storage options
             },
             function (status, response) {
                 // handle status, response
@@ -113,13 +112,15 @@
             ssl: true
         });
 
-        this._initListener();
+        this._subscribe();
     }
 
-    function initListener() {
+    function subscribe() {
         if(!this._pubnub) {
             return;
         }
+
+        this._pubnub.subscribe({channels: [this._channel]});
         this._pubnub.addListener(this._getListener);
     }
 
