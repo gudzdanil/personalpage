@@ -32,7 +32,7 @@
             templateUrl: '/templates/map.html'
         });
 
-    function AppController(PubNubService) {
+    function AppController(PubNubService, $scope) {
         PubNubService.getHistory().then(angular.bind(this, function (messages) {
             this.messages = messages.map(function (el) {
                 return el.entry;
@@ -41,9 +41,13 @@
         PubNubService.getOnlineUsers().then(angular.bind(this, function (response) {
 
         }));
+        $scope.$on('message', angular.bind(this, function(m){
+            this.messages.unshift(m);
+        }));
+
     }
 
-    AppController.$inject = ['PubNubService'];
+    AppController.$inject = ['PubNubService', '$scope'];
 
     function PubNubService($rootScope, $q) {
         this._rootScope = $rootScope;
