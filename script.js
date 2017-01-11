@@ -42,7 +42,7 @@
 
         }));
         $scope.$on('message', angular.bind(this, function(e, m){
-            $scope.$apply(function() {this.messages.unshift(m);});
+            $scope.$apply(angular.bind(this, function() {this.messages.unshift(m);}));
         }));
 
     }
