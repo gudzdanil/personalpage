@@ -1,188 +1,178 @@
-(function () {
-    angular.module('es360', [])
-        .run(['PubNubService', function (PubNubService) {
-            PubNubService.init();
-        }])
-        .service('PubNubService', PubNubService)
-        .component('app', {
-            templateUrl: '/templates/app.html',
-            controller: AppController
-        })
-        .component('message', {
-            bindings: {
-                message: '<'
+/*
+ * Copyright 2016 Google Inc. All Rights Reserved.
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+var vrView;
+
+// All the scenes for the experience
+var scenes = {
+    dolphins: {
+        image: 'dolphins.jpg',
+        preview: 'dolphins-preview.jpg',
+        hotspots: {
+            whaleRight: {
+                pitch: 0,
+                yaw: 110,
+                radius: 0.05,
+                distance: 1
             },
-            templateUrl: '/templates/message.html'
-        })
-        .component('sendForm', {
-            templateUrl: '/templates/form.html',
-            controller: ['PubNubService', function (PubNubService) {
-                this.text = '';
-                this.submit = angular.bind(this, function () {
-                    PubNubService.publish({text: this.text});
-                    this.text = '';
-                });
-            }]
-        })
-        .component('map', {
-            bindings: {
-                userCoords: '<',
-                lastUserCoord: '<'
+            whaleLeft: {
+                pitch: 0,
+                yaw: 150,
+                radius: 0.05,
+                distance: 1
             },
-            templateUrl: '/templates/map.html',
-            controller: ['$element', function($element) {
-                this._map = new google.maps.Map(document.getElementById($element), {
-                    center: {lat: -34.397, lng: 150.644},
-                    zoom: 6
-                });
-                var infoWindow = new google.maps.InfoWindow({map: map});
-
-                // Try HTML5 geolocation.
-                if (navigator.geolocation) {
-                    navigator.geolocation.getCurrentPosition(function(position) {
-                        var pos = {
-                            lat: position.coords.latitude,
-                            lng: position.coords.longitude
-                        };
-
-                        infoWindow.setPosition(pos);
-                        infoWindow.setContent('Location found.');
-                        map.setCenter(pos);
-                    }, function() {
-                        handleLocationError(true, infoWindow, map.getCenter());
-                    });
-                } else {
-                    // Browser doesn't support Geolocation
-                    handleLocationError(false, infoWindow, map.getCenter());
-                }
-
-                function handleLocationError(browserHasGeolocation, infoWindow, pos) {
-                    infoWindow.setPosition(pos);
-                    infoWindow.setContent(browserHasGeolocation ?
-                        'Error: The Geolocation service failed.' :
-                        'Error: Your browser doesn\'t support geolocation.');
-                }
-            }]
-        });
-
-    function AppController(PubNubService, $scope) {
-        PubNubService.getHistory().then(angular.bind(this, function (messages) {
-            this.messages = messages.map(function (el) {
-                return el.entry;
-            }).reverse();
-            PubNubService.getOnlineUsers().then(angular.bind(this, function (response) {
-
-            }));
-        }));
-        $scope.$on('message', angular.bind(this, function(e, m){
-            $scope.$apply(angular.bind(this, function() {this.messages.unshift(m);}));
-        }));
-
-    }
-
-    AppController.$inject = ['PubNubService', '$scope'];
-
-    function PubNubService($rootScope, $q) {
-        this._rootScope = $rootScope;
-        this._q = $q;
-        this._channel = 'chat';
-    }
-
-    PubNubService.$inject = ['$rootScope', '$q'];
-
-    PubNubService.prototype.init = initPubNub;
-    PubNubService.prototype._getListener = getListener;
-    PubNubService.prototype.publish = publish;
-    PubNubService.prototype.getOnlineUsers = getOnlineUsers;
-    PubNubService.prototype.getHistory = getHistory;
-
-    function getHistory() {
-        return this._q(angular.bind(this, function (res, rej) {
-            this._pubnub.history(
-                {
-                    channel: this._channel
-                },
-                function (status, response) {
-                    console.log('history', status, response);
-                    if (status.statusCode !== 200) {
-                        rej(status);
-                    }
-                    res(response.messages);
-                }
-            );
-        }));
-    }
-
-    function getOnlineUsers() {
-        return this._q(angular.bind(this, function (res, rej) {
-            this._pubnub.hereNow(
-                {
-                    includeUUIDs: true,
-                    includeState: true
-                },
-                function (status, response) {
-                    console.log('here now', status, response);
-                    res(response);
-                }
-            );
-        }));
-    }
-
-    function publish(message) {
-        this._pubnub.publish(
-            {
-                message: message,
-                channel: this._channel,
-            },
-            function (status, response) {
-                // handle status, response
-                console.log('publish response', arguments);
+            walrus: {
+                pitch: 0,
+                yaw: 170,
+                radius: 0.05,
+                distance: 1
             }
-        );
+        }
+    },
+    whaleLeft: {
+        image: 'whale-left.jpg',
+        preview: 'whale-left-preview.jpg',
+        hotspots: {
+            whaleRight: {
+                pitch: 0,
+                yaw: 125,
+                radius: 0.05,
+                distance: 1
+            },
+            dolphins: {
+                pitch: 0,
+                yaw: 110,
+                radius: 0.05,
+                distance: 1
+            },
+            walrus: {
+                pitch: 0,
+                yaw: 30,
+                radius: 0.05,
+                distance: 1
+            }
+        }
+    },
+    whaleRight: {
+        image: 'whale-right.jpg',
+        preview: 'whale-right-preview.jpg',
+        hotspots: {
+            dolphins: {
+                pitch: 0,
+                yaw: 305,
+                radius: 0.05,
+                distance: 1
+            },
+            whaleLeft: {
+                pitch: 0,
+                yaw: 180,
+                radius: 0.05,
+                distance: 1
+            },
+            walrus: {
+                pitch: 0,
+                yaw: 210,
+                radius: 0.05,
+                distance: 1
+            }
+        }
+    },
+    walrus: {
+        image: 'walrus.jpg',
+        preview: 'walrus-preview.jpg',
+        hotspots: {
+            whaleLeft: {
+                pitch: 0,
+                yaw: 20,
+                radius: 0.05,
+                distance: 1
+            },
+            whaleRight: {
+                pitch: 0,
+                yaw: 340,
+                radius: 0.05,
+                distance: 1
+            },
+            dolphins: {
+                pitch: 0,
+                yaw: 320,
+                radius: 0.05,
+                distance: 1
+            }
+        }
     }
+};
 
-    function initPubNub() {
-        this._pubnub = new PubNub({
-            subscribeKey: "sub-c-e622b4f8-d7d4-11e6-baae-0619f8945a4f",
-            publishKey: "pub-c-f9081d4e-f107-4d19-85f7-b453dbc9b13e"
+function onLoad() {
+    vrView = new VRView.Player('#vrview', {
+        image: scenes.dolphins.image,
+        preview: scenes.dolphins.preview,
+        is_stereo: true,
+        is_autopan_off: true
+    });
+
+    vrView.on('ready', onVRViewReady);
+    vrView.on('modechange', onModeChange);
+    vrView.on('click', onHotspotClick);
+    vrView.on('error', onVRViewError);
+}
+
+function onVRViewReady(e) {
+    console.log('onVRViewReady');
+    loadScene('walrus');
+}
+
+function onModeChange(e) {
+    console.log('onModeChange', e.mode);
+}
+
+function onHotspotClick(e) {
+    console.log('onHotspotClick', e.id);
+    if (e.id) {
+        loadScene(e.id);
+    }
+}
+
+function loadScene(id) {
+    console.log('loadScene', id);
+
+    // Set the image
+    vrView.setContent({
+        image: scenes[id].image,
+        preview: scenes[id].preview,
+        is_stereo: true,
+        is_autopan_off: true
+    });
+
+    // Add all the hotspots for the scene
+    var newScene = scenes[id];
+    var sceneHotspots = Object.keys(newScene.hotspots);
+    for (var i = 0; i < sceneHotspots.length; i++) {
+        var hotspotKey = sceneHotspots[i];
+        var hotspot = newScene.hotspots[hotspotKey];
+
+        vrView.addHotspot(hotspotKey, {
+            pitch: hotspot.pitch,
+            yaw: hotspot.yaw,
+            radius: hotspot.radius,
+            distance: hotspot.distance
         });
-
-        this._pubnub.addListener(this._getListener());
-        this._pubnub.subscribe({
-            channels: [this._channel],
-            withPresence: true
-        });
     }
+}
 
-    function getListener() {
-        return this._listener || (this._listener = {
-                message: angular.bind(this, function (m) {
-                    // handle message
-                    // var channelName = m.channel; // The channel for which the message belongs
-                    // var channelGroup = m.subscription; // The channel group or wildcard subscription match (if exists)
-                    // var pubTT = m.timetoken; // Publish timetoken
-                    // var msg = m.message; // The Payload
-                    console.log('message', m);
-                    this._rootScope.$broadcast('message', m.message);
-                }),
-                presence: angular.bind(this, function (p) {
-                    // handle presence
-                    // var action = p.action; // Can be join, leave, state-change or timeout
-                    // var channelName = p.channel; // The channel for which the message belongs
-                    // var occupancy = p.occupancy; // No. of users connected with the channel
-                    // var state = p.state; // User State
-                    // var channelGroup = p.subscription; //  The channel group or wildcard subscription match (if exists)
-                    // var publishTime = p.timestamp; // Publish timetoken
-                    // var timetoken = p.timetoken;  // Current timetoken
-                    // var uuid = p.uuid; // UUIDs of users who are connected with the channel
-                    console.log('user', p);
-                    this._rootScope.$broadcast('user', p);
-                }),
-                status: angular.bind(this, function (s) {
-                    // handle status
-                    console.log('status', s);
-                    this._rootScope.$broadcast('status', s);
-                })
-            });
-    }
-})();
+function onVRViewError(e) {
+    console.log('Error! %s', e.message);
+}
+
+window.addEventListener('load', onLoad);
