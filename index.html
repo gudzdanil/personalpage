@@ -9,14 +9,23 @@
     <script>
         var OneSignal = window.OneSignal || [];
         OneSignal.push(["init", {
-            appId: "ce842eda-dcf8-4c48-930e-208e6c7b0db4"
+            appId: "ce842eda-dcf8-4c48-930e-208e6c7b0db4",
+            autoRegister: true, /* Set to true to automatically prompt visitors */
+            subdomainName: 'gudz',
+            httpPermissionRequest: {
+                enable: true
+            },
+            notifyButton: {
+                enable: true /* Set to false to hide */
+            }
         }]);
     </script>
 </head>
 <body style="margin-top:70px;">
 <div style="">
     <canvas style="float: left;"></canvas>
-    <img src="https://eyespy360-dev3.s3.amazonaws.com/u/86F4A09C-EAD8-11E6-BBE9-2D5B6F1D5B6F/bagel.png" alt="" style="width : 360px;">
+    <img src="https://eyespy360-dev3.s3.amazonaws.com/u/86F4A09C-EAD8-11E6-BBE9-2D5B6F1D5B6F/bagel.png" alt=""
+         style="width : 360px;">
 </div>
 <div style="">
     <div>
