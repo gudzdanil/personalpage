@@ -1,2 +1,4 @@
-OneSignal.init({appId: "468664f4-d0fa-4bf2-be58-2e9b829d0bcd",
-    googleProjectNumber: "931838981561"});
+OneSignal.init({
+    appId: "ce842eda-dcf8-4c48-930e-208e6c7b0db4"
+    // googleProjectNumber: "931838981561"
+});
