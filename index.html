@@ -5,21 +5,7 @@
     <title>Title</title>
     <style>
     </style>
-    <script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async='async'></script>
-    <script>
-        var OneSignal = window.OneSignal || [];
-        OneSignal.push(["init", {
-            appId: "ce842eda-dcf8-4c48-930e-208e6c7b0db4",
-            autoRegister: true, /* Set to true to automatically prompt visitors */
-            subdomainName: 'gudz',
-            httpPermissionRequest: {
-                enable: true
-            },
-            notifyButton: {
-                enable: true /* Set to false to hide */
-            }
-        }]);
-    </script>
+    <script src="./OneSignal.js"></script>
 </head>
 <body style="margin-top:70px;">
 <div style="">
@@ -35,6 +21,5 @@
         <canvas style="border:1px solid black"></canvas>
     </div>
 </div>
-<script src="./script.js"></script>
 </body>
 </html>

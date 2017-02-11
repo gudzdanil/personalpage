@@ -1,5 +1,4 @@
-var size = 360;
-var polarSize = Math.floor(size * Math.PI);
+var size, polarSize;
 var defaultColor = 'white';
 var cropTopBottom = [.25, .25];
 var fillBottom = (-.25 + 1 - cropTopBottom.reduce(function (a, b) {return a + b;}));
@@ -26,21 +25,9 @@ function setCanvasSize(canvas, width, height) {
     canvas.style.height = height + 'px';
 }
 
-function crop(canvas, position, size, isPercent) {
-    if (['left', 'right', 'bottom', 'top'].indexOf(position) === -1) {
-        throw new Error('Unexpected position');
-    }
-    var ctx = canvas.getContext('2d');
-    ctx.fillStyle = "white";
-    ctx.fillRect(
-        position != 'right' ? 0 : !isPercent ? size : Math.ceil(canvas.width * (1 - size)),
-        position != 'bottom' ? 0 : !isPercent ? size : Math.ceil(canvas.height * (1 - size)),
-        ['right', 'left'].indexOf(position) == -1 ? canvas.width : !isPercent ? size : canvas.width * size,
-        ['top', 'bottom'].indexOf(position) == -1 ? canvas.height : !isPercent ? size : canvas.height * size
-    );
-}
-
 function onLoadImage(img, canvas, ctx) {
+    polarSize = img.width;
+    size = polarSize / Math.PI;
     var cropHeight = cropTopBottom.reduce(function(a,b){return a+b;});
     var aspectRatio = img.width / img.height;
     var scaledImgSize = {
@@ -92,26 +79,10 @@ function onLoadImage(img, canvas, ctx) {
             }
         }
     }
-    ctxBagel.putImageData(bagelData, 0, 0);
-
-    // for (i = 0; i < canvas.height; i++) {
-    //     for (j = 0; j < canvas.width; j++) {
-    //         angle = (halfWidth - j) * angleRatio;
-    //         distance = (canvas.height - i) * distanceRatio / 2;
-    //         x = Math.floor(halfWidthBagel + Math.cos(angle) * distance);
-    //         y = Math.floor(halfWidthBagel + Math.sin(angle) * distance);
-    //
-    //         bagelIndex = y * rowWidthBagel + x * 4;
-    //         imageIndex = i * rowWidth + j * 4;
-    //
-    //         bagelData.data[bagelIndex] = imageData.data[imageIndex];
-    //         bagelData.data[bagelIndex + 1] = imageData.data[imageIndex + 1];
-    //         bagelData.data[bagelIndex + 2] = imageData.data[imageIndex + 2];
-    //         bagelData.data[bagelIndex + 3] = imageData.data[imageIndex + 3];
-    //     }
-    // }
-    //
-
+    bagel.width = this._saveSize;
+    bagel.height = this._saveSize;
+    ctxBagel.scale(this._saveSize / this._save);
+    ctxBagel.putImageData(bagelData, 0, 0, 0, 0, bagel.width, bagel.height);
 }
 
 var coefPI = Math.PI / 2;
