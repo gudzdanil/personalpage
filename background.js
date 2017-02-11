@@ -8,6 +8,4 @@ var initOptions = {
     }
 };
 
-OneSignal.push(function() {
-    OneSignal.init(initOptions);
-});
+OneSignal.init(initOptions);
