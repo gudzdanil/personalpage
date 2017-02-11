@@ -5,7 +5,10 @@ var initOptions = {
     autoRegister: true,
     notifyButton: {
         enable: true
-    }
+    },
+    httpPermissionRequest:{
+        enable: true
+    },
 };
 
 OneSignal.init(initOptions);
