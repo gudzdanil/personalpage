@@ -1,8 +1,0 @@
-{
-  "app": {
-    "background": {
-      "scripts": ["OneSignal.js", "background.js"]
-    }
-  },
-  "permissions": ["gcm", "storage", "notifications", "identity", "browser"]
-}
