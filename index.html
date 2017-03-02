@@ -24,23 +24,21 @@
     var subscribed = document.getElementById('subscribed');
     var subscribe = document.getElementById('subscribe');
     
-    Gravitec.push(['getSubsription', function(subscription){
+   
+    
+    Gravitec.push(['getSubscription', function(subscription){
         if(subscription){
             afterSubsription();
         }else{
-            Gravitec.push(['registerUserForPush', function(){
-              subscribe.addEventListener('click', function(){
-               
-                 Gravitec.push(['_subscribe', function(){
-                    afterSubsription();
-                 }]);
+           subscribe.addEventListener('click', function(){
+                 Gravitec.push(['registerUserForPush', afterSubscription])
               })  
-            }])
         }
     }])
     
     function afterSubsription(){
     subscribed.style.display = 'block';
+    subscribe.style.display = 'none';
     var addButton = document.getElementById('add');
     var checkbox1 = document.getElementById('tag1');
     var checkbox2 = document.getElementById('tag2');
