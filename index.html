@@ -28,7 +28,7 @@
     Gravitec.push(['init', {autoRegister: false}])
     Gravitec.push(['getSubscription', function(subscription){
         if(subscription){
-            afterSubsription();
+            afterSubscription();
         }else{
            subscribe.addEventListener('click', function(){
                  Gravitec.push(['registerUserForPush', afterSubscription])
@@ -36,7 +36,7 @@
         }
     }])
     
-    function afterSubsription(){
+    function afterSubscription(){
     subscribed.style.display = 'block';
     subscribe.style.display = 'none';
     var addButton = document.getElementById('add');
