@@ -3,15 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    <style>
-        iframe {
-            width: 700px;
-            height: 400px;
+ <style>
+        #subscribed{
+            display: none;
         }
     </style>
 </head>
 <body>
-<div id="vrview">
+    <button id="subscribe">Subscribe</button>
+<div id="subscribed">
     <label><input type="checkbox" id="tag1" value="tag1">tag1</label>    
      <label><input type="checkbox" id="tag2" value="tag2">tag2</label>  
     <button id="add">Add</button>
@@ -21,19 +21,38 @@
 <script src="./script.js"></script> -->
 <script>
     var Gravitec = Gravitec || [];
+    var subscribed = document.getElementById('subscribed');
+    var subscribe = document.getElementById('subscribe');
+    
+    Gravitec.push(['getSubsription', function(subscription){
+        if(subscription){
+            afterSubsription();
+        }else{
+            Gravitec.push(['registerUserForPush', function(){
+              subscribe.addEventListener('click', function(){
+                 Gravitec.push(['_subscribe']);
+              })  
+            }])
+        }
+    }])
+    
+    function afterSubsription(){
+    subscribed.style.display = 'block';
     var addButton = document.getElementById('add');
     var checkbox1 = document.getElementById('tag1');
     var checkbox2 = document.getElementById('tag2');
-    addButton.addEventListener('click', function(){
+        addButton.addEventListener('click', function(){
         var tags = [];
         if(checkbox1.checked){
-        tags.push(checkbox1.value)
+        tags.push(checkbox1.value);
         }
         if(checkbox2.checked){
-         tags.push(checkbox2.value)
+         tags.push(checkbox2.value);
         }
-         Gravitec.push(['setTags', tags])
+         Gravitec.push(['setTags', tags]);
     })
+    }
+  
 </script>
 </body>
 </html>
