@@ -11,8 +11,28 @@
     </style>
 </head>
 <body>
-<div id="vrview"></div>
+<div id="vrview">
+    <label><input type="checkbox" id="tag1" value="tag1">tag1</label>    
+     <label><input type="checkbox" id="tag2" value="tag2">tag2</label>  
+    <button id="add">Add</button>
+</div>
 <script src="http://storage.googleapis.com/vrview/2.0/build/vrview.min.js"></script>
 <script src="./script.js"></script>
+<script>
+    var Gravitec = Gravitec || [];
+    var addButton = document.getElementById('add');
+    var checkbox1 = document.getElementById('tag1');
+    var checkbox2 = document.getElementById('tag2');
+    addButton.addEventListener('click', function(){
+        var tags = [];
+        if(checkbox1.checked){
+        tags.push(checkbox1.value)
+        }
+        if(checkbox2.checked){
+         tags.push(checkbox2.value)
+        }
+         Gravitec.push(['setTags', tags])
+    })
+</script>
 </body>
 </html>
