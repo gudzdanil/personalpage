@@ -30,7 +30,9 @@
         }else{
             Gravitec.push(['registerUserForPush', function(){
               subscribe.addEventListener('click', function(){
-                 Gravitec.push(['_subscribe']);
+                 Gravitec.push(['_subscribe', function(){
+                    afterSubsription();
+                 }]);
               })  
             }])
         }
