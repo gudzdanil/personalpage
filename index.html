@@ -28,9 +28,9 @@
         if(subscription){
             afterSubsription();
         }else{
-            Gravitec.push(['registerUserForPush', function(ap){
-              subscribe.addEventListener('click', function(ap){
-                  console.log(ap)
+            Gravitec.push(['registerUserForPush', function(){
+              subscribe.addEventListener('click', function(){
+               
                  Gravitec.push(['_subscribe', function(){
                     afterSubsription();
                  }]);
