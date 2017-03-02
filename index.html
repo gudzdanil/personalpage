@@ -25,7 +25,7 @@
     var subscribe = document.getElementById('subscribe');
     
    
-    
+    Gravitec.push(['init', {autoRegister: false}])
     Gravitec.push(['getSubscription', function(subscription){
         if(subscription){
             afterSubsription();
