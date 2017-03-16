@@ -3,15 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
- <style>
-        #subscribed{
-            display: none;
+    <style>
+        iframe {
+            width: 700px;
+            height: 400px;
         }
     </style>
 </head>
 <body>
-    <button id="subscribe">Subscribe</button>
-<div id="subscribed">
+<div id="vrview">
     <label><input type="checkbox" id="tag1" value="tag1">tag1</label>    
      <label><input type="checkbox" id="tag2" value="tag2">tag2</label>  
     <button id="add">Add</button>
@@ -21,43 +21,21 @@
 <script src="./script.js"></script> -->
 <script>
     var Gravitec = Gravitec || [];
-    var subscribed = document.getElementById('subscribed');
-    var subscribe = document.getElementById('subscribe');
-    
-   
-    Gravitec.push(['init', {autoRegister: false}])
-    Gravitec.push(['getSubscription', function(subscription){
-        if(subscription){
-            afterSubscription(subscription);
-        }else{
-           subscribe.addEventListener('click', function(){
-                 Gravitec.push(['registerUserForPush', afterSubscription])
-              })  
-        }
-    }])
-    
-    function afterSubscription(subscription){
-        if(!subscription) return;
-    subscribed.style.display = 'block';
-    subscribe.style.display = 'none';
     var addButton = document.getElementById('add');
     var checkbox1 = document.getElementById('tag1');
     var checkbox2 = document.getElementById('tag2');
-        addButton.addEventListener('click', function(){
+    addButton.addEventListener('click', function(){
         var tags = [];
         if(checkbox1.checked){
-        tags.push(checkbox1.value);
+        tags.push(checkbox1.value)
         }
         if(checkbox2.checked){
-         tags.push(checkbox2.value);
+         tags.push(checkbox2.value)
         }
-         Gravitec.push(['setTags', tags]);
-            alert('tag'+(tags.length > 1 ? 's' : '')+': ' + tags.join(', ') + ' have been added');
+         Gravitec.push(['setTags', tags])
     })
-    }
-  
 </script>
-<script type="text/javascript">
+    <script type="text/javascript">
 (function(w,d,s,u,h,a,m){w[h]=w[h]||function(){(w[h].q=w[h].q||[]).push(arguments)};a=d.createElement(s),m=d.getElementsByTagName(s)[0];a.async=1;a.src=u;a.charset='utf-8';m.parentNode.insertBefore(a,m)})(window,document,'script','//hintarea.com/hint.js','_hintArea');
 _hintArea("start");
  </script>    
